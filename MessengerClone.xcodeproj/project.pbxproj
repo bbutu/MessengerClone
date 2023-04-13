@@ -32,6 +32,7 @@
 		ED6F644E29E83A5D00830CE2 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = ED6F644D29E83A5D00830CE2 /* FirebaseFirestoreSwift */; };
 		ED6F645029E83A5D00830CE2 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = ED6F644F29E83A5D00830CE2 /* FirebaseStorage */; };
 		ED6F645229E83A5D00830CE2 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = ED6F645129E83A5D00830CE2 /* FirebaseStorageCombine-Community */; };
+		ED6F645429E8493900830CE2 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6F645329E8493900830CE2 /* DatabaseManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		ED6F643929E599E900830CE2 /* ReusableTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableTextField.swift; sourceTree = "<group>"; };
 		ED6F643C29E59E7000830CE2 /* ReusableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableButton.swift; sourceTree = "<group>"; };
 		ED6F643E29E8393F00830CE2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		ED6F645329E8493900830CE2 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +151,7 @@
 				ED6F641029E574C200830CE2 /* AppDelegate.swift */,
 				ED6F641229E574C200830CE2 /* SceneDelegate.swift */,
 				ED6F643729E5937C00830CE2 /* Extensions.swift */,
+				ED6F645329E8493900830CE2 /* DatabaseManager.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -259,6 +262,7 @@
 			files = (
 				ED6F642B29E585EA00830CE2 /* LoginViewController.swift in Sources */,
 				ED6F642D29E585F700830CE2 /* RegisterViewController.swift in Sources */,
+				ED6F645429E8493900830CE2 /* DatabaseManager.swift in Sources */,
 				ED6F643D29E59E7000830CE2 /* ReusableButton.swift in Sources */,
 				ED6F643429E5863800830CE2 /* NewConversationViewController.swift in Sources */,
 				ED6F641529E574C200830CE2 /* ConversationsViewController.swift in Sources */,
