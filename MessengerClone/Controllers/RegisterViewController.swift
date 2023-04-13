@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class RegisterViewController: UIViewController {
     private let imageView: UIImageView = {
@@ -123,6 +124,15 @@ class RegisterViewController: UIViewController {
               password.count >= 6 else {
             alertUserLoginError()
             return
+        }
+        
+        FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+            guard let result = authResult, error == nil else {
+                print("Error creating account")
+                return
+            }
+            let user = result.user
+            print("User Created: \(user)")
         }
     }
     
