@@ -19,11 +19,32 @@
 					<string>Default Configuration</string>
 					<key>UISceneDelegateClassName</key>
 					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
-					<key>UISceneStoryboardFile</key>
-					<string>Main</string>
 				</dict>
 			</array>
 		</dict>
 	</dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb1655452141572402</string>
+			</array>
+		</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>1655452141572402</string>
+	<key>FacebookClientToken</key>
+	<string>8a47053b21975bcc832e27c05fb2c94e</string>
+	<key>FacebookDisplayName</key>
+	<string>MessengerClone</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+        <key>LSApplicationQueriesSchemes</key>
+        <array>
+            <string>fbapi</string>
+            <string>fb-messenger-share-api</string>
+        </array>
+	</array>
 </dict>
 </plist>
