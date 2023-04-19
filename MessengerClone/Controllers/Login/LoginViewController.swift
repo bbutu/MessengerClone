@@ -8,6 +8,8 @@
 import UIKit
 import FirebaseAuth
 import FBSDKLoginKit
+import FirebaseCore
+import GoogleSignIn
 
 class LoginViewController: UIViewController {
     
@@ -51,6 +53,8 @@ class LoginViewController: UIViewController {
         return button
     }()
     
+    private let googleLoginButton = GIDSignInButton()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -61,6 +65,7 @@ class LoginViewController: UIViewController {
         emailField.delegate = self
         passwordField.delegate = self
         facebookLoginButton.delegate = self
+        googleLoginButton.addTarget(self, action: #selector(didTapGoogleLoginButton), for: .touchUpInside)
     }
     
     override func viewDidLayoutSubviews() {
@@ -73,6 +78,8 @@ class LoginViewController: UIViewController {
         loginButton.frame = CGRect(x: 30, y: passwordField.bottom + 10, width: scrollView.width - 60, height: 52)
         facebookLoginButton.frame = CGRect(x: 30, y: loginButton.bottom + 10, width: scrollView.width - 60, height: 52)
         facebookLoginButton.layer.cornerRadius = 12
+        googleLoginButton.frame = CGRect(x: 30, y: facebookLoginButton.bottom + 10, width: scrollView.width - 60, height: 52)
+        googleLoginButton.layer.cornerRadius = 12
     }
     
     private func addSubviews() {
@@ -82,6 +89,7 @@ class LoginViewController: UIViewController {
         scrollView.addSubview(passwordField)
         scrollView.addSubview(loginButton)
         scrollView.addSubview(facebookLoginButton)
+        scrollView.addSubview(googleLoginButton)
     }
     
     private func configureNavBar() {
@@ -89,6 +97,10 @@ class LoginViewController: UIViewController {
                                                             style: .done,
                                                             target: self,
                                                             action: #selector(didTapRegister))
+    }
+    
+    @objc private func didTapGoogleLoginButton() {
+        signInWithGoogle()
     }
     
     @objc private func didTapLoginButton() {
@@ -185,6 +197,54 @@ extension LoginViewController: LoginButtonDelegate {
             }
         }
     }
-    
-    
+}
+
+extension LoginViewController {
+    private func signInWithGoogle() {
+        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+        
+        // Create Google Sign In configuration object.
+        let config = GIDConfiguration(clientID: clientID)
+        GIDSignIn.sharedInstance.configuration = config
+        
+        // Start the sign in flow!
+        GIDSignIn.sharedInstance.signIn(withPresenting: self) { [unowned self] result, error in
+            guard error == nil else {
+                
+                return
+            }
+            
+            guard let user = result?.user,
+                  let idToken = user.idToken?.tokenString
+            else {
+                print("Error while signing in with Google: \(String(describing: error?.localizedDescription))")
+                return
+            }
+            
+            guard let email = user.profile?.email,
+                  let firstName = user.profile?.givenName,
+                  let lastName = user.profile?.familyName else {
+                return
+            }
+            print("Did sign in with user: \(user)")
+            DatabaseManager.shared.userExists(with: email) { exists in
+                if !exists {
+                    //inserts to database
+                    DatabaseManager.shared.insertUser(with: ChatAppUser(firstName: firstName, lastName: lastName, emailAddress: email))
+                }
+            }
+            
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken,
+                                                           accessToken: user.accessToken.tokenString)
+            FirebaseAuth.Auth.auth().signIn(with: credential) {[weak self] authResult, error in
+                guard let strongSelf = self else {return}
+                guard authResult != nil, error == nil else {
+                    print("Failed to log in google with credential")
+                    return
+                }
+                strongSelf.navigationController?.dismiss(animated: true)
+                print("Successfully signed in with Google Credential.")
+            }
+        }
+    }
 }
