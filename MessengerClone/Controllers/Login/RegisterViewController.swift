@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseAuth
+import JGProgressHUD
 
 class RegisterViewController: UIViewController {
     private let imageView: UIImageView = {
@@ -62,6 +63,8 @@ class RegisterViewController: UIViewController {
         button.setTitle("Register", for: .normal)
         return button
     }()
+    
+    private let spinner = JGProgressHUD(style: .dark)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -126,19 +129,26 @@ class RegisterViewController: UIViewController {
             return
         }
         
+        spinner.show(in: view)
+        
         DatabaseManager.shared.userExists(with: email) {[weak self] exists in
-                guard let strongSelf = self else { return }
-                guard !exists else {
-                    strongSelf.alertUserLoginError(message: "Looks like a user account for that email already exists. ")
+            guard let strongSelf = self else { return }
+            
+            DispatchQueue.main.async {
+                strongSelf.spinner.dismiss()
+            }
+            
+            guard !exists else {
+                strongSelf.alertUserLoginError(message: "Looks like a user account for that email already exists. ")
+                return
+            }
+            FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+                guard authResult != nil, error == nil else {
+                    print("Error creating account")
                     return
                 }
-                FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
-                    guard authResult != nil, error == nil else {
-                        print("Error creating account")
-                        return
-                    }
-                    DatabaseManager.shared.insertUser(with: ChatAppUser(firstName: firstName, lastName: lastName, emailAddress: email))
-                    strongSelf.navigationController?.dismiss(animated: true)
+                DatabaseManager.shared.insertUser(with: ChatAppUser(firstName: firstName, lastName: lastName, emailAddress: email))
+                strongSelf.navigationController?.dismiss(animated: true)
             }
         }
     }
