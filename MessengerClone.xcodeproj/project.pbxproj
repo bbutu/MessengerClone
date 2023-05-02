@@ -112,9 +112,9 @@
 				ED6F645B29EA29A700830CE2 /* MessengerClone.entitlements */,
 				ED6F643E29E8393F00830CE2 /* GoogleService-Info.plist */,
 				ED6F642829E57CEB00830CE2 /* Resources */,
-				ED6F642729E57CDF00830CE2 /* ViewModels */,
 				ED6F642629E57CD500830CE2 /* Models */,
 				ED6F642529E57CCD00830CE2 /* Views */,
+				ED6F642729E57CDF00830CE2 /* ViewModels */,
 				ED6F642429E57CBA00830CE2 /* Controllers */,
 				ED6F641E29E574C400830CE2 /* Info.plist */,
 			);
